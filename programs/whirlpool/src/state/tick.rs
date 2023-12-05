@@ -234,6 +234,21 @@ impl TickArray {
         Ok(())
     }
 
+    pub fn initialize_with_tick_spacing(
+        &mut self,
+        whirlpool: &Pubkey,
+        start_tick_index: i32,
+        tick_spacing: u16,
+    ) -> Result<()> {
+        if !Tick::check_is_valid_start_tick(start_tick_index, tick_spacing) {
+            return Err(ErrorCode::InvalidStartTick.into());
+        }
+
+        self.whirlpool = whirlpool.key();
+        self.start_tick_index = start_tick_index;
+        Ok(())
+    }
+
     /// Get the Tick object at the given tick-index & tick-spacing
     ///
     /// # Parameters
